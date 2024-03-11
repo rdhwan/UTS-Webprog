@@ -2,13 +2,6 @@
 
 require "../bootstrap.php";
 
-$users = User::get();
-print_r($users->toArray());
-
-// get customers where user_id is 1
-$customers = User::where("user_id", "=", 1)->get();
-print_r($customers->toArray());
-
 ?>
 
 
@@ -23,9 +16,5 @@ print_r($customers->toArray());
 </head>
 
 <body>
-
-    <p class="text-3xl">Tes</p>
-
-</body>
 
 </html>

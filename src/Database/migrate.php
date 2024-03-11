@@ -9,7 +9,6 @@ use Illuminate\Database\Schema\Blueprint;
 /*
     User Table
 */
-
 Capsule::schema()->create("user", function (Blueprint $table) {
     $table->id();
     $table->string("username")->unique();
