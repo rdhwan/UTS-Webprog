@@ -1842,6 +1842,10 @@ html {
   flex-direction: column;
 }
 
+.content-center {
+  align-content: center;
+}
+
 .items-center {
   align-items: center;
 }
@@ -1999,6 +2003,14 @@ html {
   --tw-gradient-to: #fff var(--tw-gradient-to-position);
 }
 
+.to-\[\#396D7D\] {
+  --tw-gradient-to: #396D7D var(--tw-gradient-to-position);
+}
+
+.to-\[\#1F4E81\] {
+  --tw-gradient-to: #1F4E81 var(--tw-gradient-to-position);
+}
+
 .bg-cover {
   background-size: cover;
 }
@@ -2116,6 +2128,26 @@ html {
 
 .font-semibold {
   font-weight: 600;
+}
+
+.font-extrabold {
+  font-weight: 800;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.font-light {
+  font-weight: 300;
+}
+
+.font-extralight {
+  font-weight: 200;
+}
+
+.font-thin {
+  font-weight: 100;
 }
 
 .text-\[\#1B77D9\] {
