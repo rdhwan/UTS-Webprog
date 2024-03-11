@@ -12,7 +12,7 @@
 <body class="flex flex-col min-h-screen min-w-full bg-[url('../images/bg.png')] bg-cover font-inter">
     <div class="flex flex-col flex-1 justify-center items-center">
 
-        <!-- login -->
+        <!-- dimas -->
     </div>
 
     <footer
