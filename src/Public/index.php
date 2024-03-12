@@ -1,7 +1,5 @@
 <?php
-
-require "../bootstrap.php";
-
+require_once "../bootstrap.php";
 ?>
 
 
@@ -21,11 +19,11 @@ require "../bootstrap.php";
         <img src="./images/logo.png" alt="unity book logo" class="h-[12rem] md:h-[16rem]" />
 
         <div class="flex flex-col md:flex-row gap-4">
-            <a href="./auth/login.php">
+            <a href="./auth/signin.php">
                 <button
                     class="btn btn-circle w-48 bg-gradient-to-r from-[#67C6E3] to-white border-none text-[#1B77D9]">Login</button>
             </a>
-            <a href="./auth/register.php">
+            <a href="./auth/signup.php">
                 <button
                     class="btn btn-circle w-48 bg-transparent border-[#DFF5FF] border-2 text-[#DFF5FF] hover:bg-[#DFF5FF] hover:text-[#1B77D9]">Register</button>
             </a>

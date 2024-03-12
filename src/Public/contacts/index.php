@@ -1,3 +1,16 @@
+<?php
+require_once __DIR__ . "/../../bootstrap.php";
+require_once __DIR__ . "/../../Middleware/checkAuth.php";
+
+$_SESSION["error"] = null;
+
+// parse query string
+$sort = $_GET["sort"] ?? "asc";
+$search = $_GET["search"] ?? "";
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 
@@ -20,10 +33,13 @@
                     <img src="../images/icons/profile.svg" alt="my profile" />
                 </div>
                 <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 gap-2">
-                    <li class="p-4">Username</li>
+                    <li class="p-2">
+                        <?= $user->username ?>
+                    </li>
                     <hr />
                     <li>
-                        <a class="flex flex-row justify-between text-red-500">
+                        <a href="/src/Public/auth/process_logout.php"
+                            class="flex flex-row justify-between text-red-500">
                             Log out
                             <i class="ph-bold ph-sign-out"></i>
                         </a>
@@ -32,10 +48,13 @@
             </div>
         </div>
 
-        <label class="input w-full bg-[#D9D9D9] flex items-center gap-2 rounded-full">
-            <i class="ph ph-magnifying-glass opacity-35 text-2xl"></i>
-            <input type="text" class="grow" placeholder="Search contact" />
-        </label>
+        <form method="get" action="/src/Public/contacts/index.php">
+            <label class="input w-full bg-[#D9D9D9] flex items-center gap-2 rounded-full">
+                <i class="ph ph-magnifying-glass opacity-35 text-2xl"></i>
+                <input type="text" name="search" class="grow" placeholder="Search contact" />
+            </label>
+
+        </form>
 
         <div class="flex flex-col w-full gap-2">
             <h2 class="font-bold text-[#5356FF]">Favourites</h2>
@@ -43,11 +62,11 @@
 
                 <!-- dummy -->
                 <?php for ($i = 0; $i < 10; $i++): ?>
-                <button class="avatar placeholder">
-                    <div class="bg-[#DFF5FF] text-neutral rounded-full w-16">
-                        <span>AN</span>
-                    </div>
-                </button>
+                    <button class="avatar placeholder">
+                        <div class="bg-[#DFF5FF] text-neutral rounded-full w-16">
+                            <span>AN</span>
+                        </div>
+                    </button>
 
                 <?php endfor ?>
 
@@ -71,11 +90,13 @@
                 </div>
                 <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                     <li>
-                        <a class="flex flex-row justify-between font-bold">
+                        <a href="/src/Public/contacts/index.php?sort=asc&search=<?= $search ?>"
+                            class="flex flex-row justify-between font-bold">
                             A-Z <i class="ph-bold ph-sort-ascending"></i></a>
                     </li>
                     <li>
-                        <a class="flex flex-row justify-between font-bold">
+                        <a href="/src/Public/contacts/index.php?sort=desc&search=<?= $search ?>"
+                            class="flex flex-row justify-between font-bold">
                             Z-A <i class="ph-bold ph-sort-descending"></i></a>
                     </li>
                 </ul>
@@ -91,59 +112,59 @@
         class="relative flex flex-1 flex-col gap-3 p-6 md:p-8 md:px-64 pb-20 bg-gradient-to-b from-[#67C6E3] to-[#5356FF] rounded-t-3xl overflow-scroll overflow-y-scroll disable-scroll shadow-inner">
         <!-- dummy contact list -->
         <?php for ($i = 0; $i < 10; $i++): ?>
-        <!-- contact lists -->
-        <div class="flex flex-row items-center justify-between bg-white rounded-full p-4 shadow-md">
-            <div class="avatar placeholder">
-                <div class="bg-[#DFF5FF] text-neutral rounded-full w-12">
-                    <span>AN</span>
-                </div>
-            </div>
-
-            <div class="flex flex-col flex-1 px-4">
-                <p>Aditya Nugraha</p>
-                <p class=" text-gray-400 font-medium">+62 1234 5678 9332</p>
-            </div>
-
-            <div class="flex flex-row items-center">
-                <i class="ph-fill ph-star text-yellow-500"></i>
-                <div class="dropdown dropdown-left">
-                    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
-                        <i class="ph-fill ph-dots-three-outline-vertical"></i>
+            <!-- contact lists -->
+            <div class="flex flex-row items-center justify-between bg-white rounded-full p-4 shadow-md">
+                <div class="avatar placeholder">
+                    <div class="bg-[#DFF5FF] text-neutral rounded-full w-12">
+                        <span>AN</span>
                     </div>
-                    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 gap-2">
-                        <li>
-                            <a class="flex flex-row justify-between text-blue-500">
-                                Edit User
-                                <i class="ph ph-pencil-simple-line"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="flex flex-row justify-between text-red-500">
-                                Delete User
-                                <i class="ph ph-trash"></i>
-                            </a>
-                        </li>
-
-                        <hr>
-
-                        <li>
-                            <a class="flex flex-row justify-between text-yellow-500">
-                                Add to Favourites
-                                <i class="ph ph-star"></i>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a class="flex flex-row justify-between text-red-400">
-                                Remove from Favourites
-                                <i class="ph ph-star"></i>
-                            </a>
-                        </li>
-                    </ul>
                 </div>
-            </div>
 
-        </div>
+                <div class="flex flex-col flex-1 px-4">
+                    <p>Aditya Nugraha</p>
+                    <p class=" text-gray-400 font-medium">+62 1234 5678 9332</p>
+                </div>
+
+                <div class="flex flex-row items-center">
+                    <i class="ph-fill ph-star text-yellow-500"></i>
+                    <div class="dropdown dropdown-left">
+                        <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+                            <i class="ph-fill ph-dots-three-outline-vertical"></i>
+                        </div>
+                        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 gap-2">
+                            <li>
+                                <a class="flex flex-row justify-between text-blue-500">
+                                    Edit User
+                                    <i class="ph ph-pencil-simple-line"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="flex flex-row justify-between text-red-500">
+                                    Delete User
+                                    <i class="ph ph-trash"></i>
+                                </a>
+                            </li>
+
+                            <hr>
+
+                            <li>
+                                <a class="flex flex-row justify-between text-yellow-500">
+                                    Add to Favourites
+                                    <i class="ph ph-star"></i>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="flex flex-row justify-between text-red-400">
+                                    Remove from Favourites
+                                    <i class="ph ph-star"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
 
         <?php endfor ?>
 

@@ -1,3 +1,20 @@
+<?php
+require_once __DIR__ . "/../../bootstrap.php";
+
+if (isset($_COOKIE["auth"]) && User::where("remember_token", "=", $_COOKIE["auth"])->exists()) {
+    $_SESSION["error"] = "You are already signed in.";
+
+    header("Location: /src/Public/contacts/index.php");
+    exit;
+}
+
+$errors = $_SESSION["error"];
+$_SESSION["error"] = null;
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 
@@ -19,47 +36,44 @@
                 <img src="../images/logo.png" alt="unity book logo" class="h-[10rem]" />
             </a>
 
-            <div class="flex flex-col rounded-3xl items-center justify-evenly p-10 md:p-16 gap-4 m-4 bg-white">
+            <form method="post" action="process_signup.php"
+                class="flex flex-col rounded-3xl items-center justify-evenly p-10 md:p-16 gap-4 m-4 bg-white">
                 <div class="flex flex-col items-center text-center">
                     <span class="text-4xl font-bold">Create an Account</span>
                     <span class="text-xs font-extralight">Connect with others today!</span>
                 </div>
+
+                <?php if ($errors): ?>
+                    <div role="alert" class="alert alert-error w-[16rem]">
+                        <span>
+                            <?= $errors ?>
+                        </span>
+                    </div>
+
+                <?php endif; ?>
+
                 <div class="flex flex-col align-center w-[16rem]">
                     <span class="text-sm font-light">Username</span>
                     <label class="bg-transparent rounded-none border-b-2 h-10">
                         <i class="ph ph-user opacity-35"></i>
-                        <input type="text" class="grow h-9" placeholder="Type your username" />
+                        <input type="text" name="username" class="grow h-9" placeholder="Type your username" />
                     </label>
-                    </br>
                     <span class="text-sm font-light">Password</span>
                     <label class="bg-transparent rounded-none border-b-2 h-10">
                         <i class="ph ph-lock opacity-35 h-10"></i>
-                        <input type="text" class="grow h-9" placeholder="Type your password" />
+                        <input type="password" name="password" class="grow h-9" placeholder="Type your password" />
                     </label>
-                    </br>
-                    <span class="text-sm font-light">Email</span>
-                    <label class="bg-transparent rounded-none border-b-2 h-10">
-                        <i class="ph ph-at opacity-35 h-10"></i>
-                        <input type="text" class="grow h-9" placeholder="Type your email" />
-                    </label>
-                    </br>
-                    <span class="text-sm font-light">Phone Number</span>
-                    <label class="bg-transparent rounded-none border-b-2 h-10">
-                        <i class="ph ph-phone opacity-35 h-10"></i>
-                        <input type="text" class="grow h-9" placeholder="Type your phone number" />
-                    </label>
-
                 </div>
 
                 <div class="flex flex-col items-center mt-5 gap-2">
-                    <button type="button"
+                    <button type="submit"
                         class="btn btn-circle w-56 text-2xl  bg-gradient-to-r from-[#378CE7] to-[#1F4E81] border-none text-[#DFF5FF]">Sign
                         up</button>
                     <span class="text-xs">Already have an account?</span>
-                    <a href="/auth/signin.php" class="font-bold text-[#5356FF]">SIGN IN</a>
+                    <a href="./signin.php" class="font-bold text-[#5356FF]">SIGN IN</a>
                 </div>
 
-            </div>
+            </form>
         </div>
     </div>
 
