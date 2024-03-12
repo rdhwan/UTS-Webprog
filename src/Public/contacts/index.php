@@ -110,7 +110,7 @@
                     <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
                         <i class="ph-fill ph-dots-three-outline-vertical"></i>
                     </div>
-                    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 gap-2">
                         <li>
                             <a class="flex flex-row justify-between text-blue-500">
                                 Edit User
@@ -125,6 +125,7 @@
                         </li>
 
                         <hr>
+
                         <li>
                             <a class="flex flex-row justify-between text-yellow-500">
                                 Add to Favourites
