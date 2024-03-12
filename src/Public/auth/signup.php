@@ -15,11 +15,12 @@
 
         <div class="flex flex-col flex-1 justify-center items-center">
 
-            <div class="flex flex-col">
-                <img src="../images/logo.png" alt="unity book logo" class="h-[12rem] md:h-[16rem]" />
-            </div>
-            <div class="flex flex-col rounded-3xl items-center justify-evenly h-[46rem] w-[24rem] mb-[3rem] bg-white">
-                <div class="flex flex-col items-center">
+            <a href="/">
+                <img src="../images/logo.png" alt="unity book logo" class="h-[10rem]" />
+            </a>
+
+            <div class="flex flex-col rounded-3xl items-center justify-evenly p-10 md:p-16 gap-4 m-4 bg-white">
+                <div class="flex flex-col items-center text-center">
                     <span class="text-4xl font-bold">Create an Account</span>
                     <span class="text-xs font-extralight">Connect with others today!</span>
                 </div>
@@ -50,14 +51,12 @@
 
                 </div>
 
-                <div class="flex flex-col items-center mt-5">
+                <div class="flex flex-col items-center mt-5 gap-2">
                     <button type="button"
                         class="btn btn-circle w-56 text-2xl  bg-gradient-to-r from-[#378CE7] to-[#1F4E81] border-none text-[#DFF5FF]">Sign
                         up</button>
-                    </br>
                     <span class="text-xs">Already have an account?</span>
-                    </br>
-                    <span class="font-bold text-[#5356FF]">LOGIN</span>
+                    <a href="/auth/signin.php" class="font-bold text-[#5356FF]">SIGN IN</a>
                 </div>
 
             </div>

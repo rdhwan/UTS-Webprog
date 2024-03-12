@@ -13,10 +13,11 @@
 <body class="flex flex-col min-h-screen min-w-full bg-[url('../images/bg.png')] bg-cover font-inter">
     <div class="flex flex-col flex-1 justify-center items-center">
 
-        <div class="flex flex-col">
-            <img src="../images/logo.png" alt="unity book logo" class="h-[12rem] md:h-[16rem]" />
-        </div>
-        <div class="flex flex-col rounded-3xl items-center justify-evenly h-[32rem] w-[24rem] bg-white">
+        <a href="/">
+            <img src="../images/logo.png" alt="unity book logo" class="h-[10rem]" />
+        </a>
+
+        <div class="flex flex-col rounded-3xl items-center justify-evenly bg-white p-10 md:p-16 gap-4 m-4">
             <div class="flex flex-col items-center">
                 <span class="text-4xl font-bold">Welcome Back!</span>
                 <span class="text-xs font-extralight">Enter your credentials to login</span>
@@ -36,13 +37,12 @@
 
             </div>
 
-            <div class="flex flex-col items-center mt-5">
+            <div class="flex flex-col items-center mt-5 gap-2">
                 <button type="button"
-                    class="btn btn-circle w-56 text-2xl  bg-gradient-to-r from-[#67C6E3] to-[#396D7D] border-none text-[#DFF5FF]">Login</button>
-                </br>
+                    class="btn btn-circle w-56 text-2xl  bg-gradient-to-r from-[#67C6E3] to-[#396D7D] border-none text-[#DFF5FF]">Sign
+                    In</button>
                 <span class="text-xs">Or sign up using</span>
-                </br>
-                <span class="font-bold text-[#5356FF]">SIGN UP</span>
+                <a href="/auth/signup.php" class="font-bold text-[#5356FF]">SIGN UP</a>
             </div>
 
         </div>
