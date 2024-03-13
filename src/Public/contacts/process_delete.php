@@ -18,7 +18,7 @@ if (!isset($id) || !is_numeric($id) || $id < 1) {
 }
 
 $contact = Customer::where("id", "=", $id)
-    ->wher("user_id", "=", $user->id)
+    ->where("user_id", "=", $user->id)
     ->first();
 if (!$contact) {
     $_SESSION["error"] = "Contact not found";
