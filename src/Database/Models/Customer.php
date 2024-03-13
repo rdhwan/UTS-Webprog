@@ -8,9 +8,9 @@ class Customer extends Eloquent
 {
     protected $table = "customer";
 
-    protected $fillable = ["name", "companyName", "phoneNumber", "email", "isFavorite"];
+    protected $fillable = ["name", "companyName", "phoneNumber", "email", "isFavorite", "user_id"];
 
-    public function customers()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

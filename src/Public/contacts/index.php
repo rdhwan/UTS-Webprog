@@ -8,6 +8,19 @@ $_SESSION["error"] = null;
 $sort = $_GET["sort"] ?? "asc";
 $search = $_GET["search"] ?? "";
 
+
+$message = $_SESSION["message"];
+$_SESSION["message"] = null;
+
+$error = $_SESSION["error"];
+$_SESSION["error"] = null;
+
+// sort contacts, make isFavorite first
+$customers = Customer::where("user_id", "=", $user->id)
+    ->where("name", "like", "%$search%")
+    ->orderBy("isFavorite", "desc")
+    ->orderBy("name", $sort)
+    ->get();
 ?>
 
 
@@ -25,6 +38,22 @@ $search = $_GET["search"] ?? "";
 
 <body class="flex flex-col h-screen min-w-full bg-[url('../images/bg-transparent.png')] bg-cover font-inter">
     <div class="flex flex-col h-96 p-6 md:p-8 md:px-64 gap-6 justify-evenly">
+        <?php if ($message): ?>
+            <div role="alert" class="alert alert-info">
+                <span>
+                    <?= $message ?>
+                </span>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($error): ?>
+            <div role="alert" class="alert alert-error">
+                <span>
+                    <?= $error ?>
+                </span>
+            </div>
+        <?php endif; ?>
+
         <div class="flex flex-row items-center justify-between">
             <h1 class="text-2xl font-bold">Contact</h1>
 
@@ -38,11 +67,11 @@ $search = $_GET["search"] ?? "";
                     </li>
                     <hr />
                     <li>
-                        <a href="/src/Public/auth/process_logout.php"
-                            class="flex flex-row justify-between text-red-500">
+                        <button class="flex flex-row justify-between text-red-500" onclick="logout_confirm.showModal()">
                             Log out
                             <i class="ph-bold ph-sign-out"></i>
-                        </a>
+                            </btn>
+
                     </li>
                 </ul>
             </div>
@@ -51,7 +80,7 @@ $search = $_GET["search"] ?? "";
         <form method="get" action="/src/Public/contacts/index.php">
             <label class="input w-full bg-[#D9D9D9] flex items-center gap-2 rounded-full">
                 <i class="ph ph-magnifying-glass opacity-35 text-2xl"></i>
-                <input type="text" name="search" class="grow" placeholder="Search contact" />
+                <input type="text" name="search" class="grow" value="<?= $search ?>" placeholder="Search contact" />
             </label>
 
         </form>
@@ -61,14 +90,17 @@ $search = $_GET["search"] ?? "";
             <div class="flex flex-row gap-4 overflow-scroll disable-scroll">
 
                 <!-- dummy -->
-                <?php for ($i = 0; $i < 10; $i++): ?>
-                    <button class="avatar placeholder">
-                        <div class="bg-[#DFF5FF] text-neutral rounded-full w-16">
-                            <span>AN</span>
-                        </div>
-                    </button>
-
-                <?php endfor ?>
+                <?php foreach ($customers as $customer): ?>
+                    <?php if ($customer->isFavorite): ?>
+                        <a href="/src/Public/contacts/edit.php?id=<?= $customer->id ?>" class="avatar placeholder">
+                            <div class="bg-[#DFF5FF] text-neutral rounded-full w-16">
+                                <span>
+                                    <?= $customer->name[0] ?>
+                                </span>
+                            </div>
+                        </a>
+                    <?php endif ?>
+                <?php endforeach ?>
 
                 <!-- add button -->
                 <button
@@ -102,7 +134,9 @@ $search = $_GET["search"] ?? "";
                 </ul>
             </div>
 
-            <p class="font-bold">8 entries</p>
+            <p class="font-bold">
+                <?= count($customers) ?> entries
+            </p>
         </div>
 
 
@@ -111,62 +145,95 @@ $search = $_GET["search"] ?? "";
     <div
         class="relative flex flex-1 flex-col gap-3 p-6 md:p-8 md:px-64 pb-20 bg-gradient-to-b from-[#67C6E3] to-[#5356FF] rounded-t-3xl overflow-scroll overflow-y-scroll disable-scroll shadow-inner">
         <!-- dummy contact list -->
-        <?php for ($i = 0; $i < 10; $i++): ?>
+        <?php foreach ($customers as $customer): ?>
             <!-- contact lists -->
             <div class="flex flex-row items-center justify-between bg-white rounded-full p-4 shadow-md">
                 <div class="avatar placeholder">
                     <div class="bg-[#DFF5FF] text-neutral rounded-full w-12">
-                        <span>AN</span>
+                        <span>
+                            <?= $customer->name[0] ?>
+                        </span>
                     </div>
                 </div>
 
                 <div class="flex flex-col flex-1 px-4">
-                    <p>Aditya Nugraha</p>
-                    <p class=" text-gray-400 font-medium">+62 1234 5678 9332</p>
+                    <p>
+                        <?= $customer->name ?>
+                    </p>
+                    <p class=" text-gray-400 font-medium">
+                        <?= $customer->phoneNumber ?>
+                    </p>
                 </div>
 
                 <div class="flex flex-row items-center">
-                    <i class="ph-fill ph-star text-yellow-500"></i>
+
+                    <?php if ($customer->isFavorite): ?>
+                        <i class="ph-fill ph-star text-yellow-500"></i>
+                    <?php endif ?>
                     <div class="dropdown dropdown-left">
                         <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
                             <i class="ph-fill ph-dots-three-outline-vertical"></i>
                         </div>
                         <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 gap-2">
                             <li>
-                                <a class="flex flex-row justify-between text-blue-500">
+                                <a href="/src/Public/contacts/edit.php?id=<?= $customer->id ?>"
+                                    class="flex flex-row justify-between text-blue-500">
                                     Edit User
                                     <i class="ph ph-pencil-simple-line"></i>
                                 </a>
                             </li>
                             <li>
-                                <a class="flex flex-row justify-between text-red-500">
+                                <button onclick="<?= "delete_modal_" . $customer->id ?>.showModal()"
+                                    class="flex flex-row justify-between text-red-500">
                                     Delete User
                                     <i class="ph ph-trash"></i>
-                                </a>
+                                </button>
                             </li>
+
+                            <dialog id="<?= "delete_modal_" . $customer->id ?>" class="modal">
+                                <div class="modal-box">
+                                    <h3 class="font-bold text-lg">Delete
+                                        <?= $customer->name ?> ?
+                                    </h3>
+                                    <p class="py-4">Are you sure want to delete
+                                        <?= $customer->name ?>
+                                    </p>
+                                    <div class="modal-action">
+                                        <form method="dialog">
+                                            <!-- if there is a button in form, it will close the modal -->
+                                            <a href="/src/Public/contacts/process_delete.php?id=<?= $customer->id ?>"
+                                                class="btn btn-error">Delete</a>
+                                            <button class="btn">Close</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </dialog>
 
                             <hr>
 
                             <li>
-                                <a class="flex flex-row justify-between text-yellow-500">
-                                    Add to Favourites
-                                    <i class="ph ph-star"></i>
-                                </a>
-                            </li>
 
-                            <li>
-                                <a class="flex flex-row justify-between text-red-400">
-                                    Remove from Favourites
-                                    <i class="ph ph-star"></i>
-                                </a>
+                                <?php if ($customer->isFavorite): ?>
+                                    <a href="/src/Public/contacts/process_toggle_fav.php?id=<?= $customer->id ?>"
+                                        class="flex flex-row justify-between text-red-400">
+                                        Remove from Favourites
+                                        <i class="ph ph-star"></i>
+                                    </a>
+                                <?php else: ?>
+                                    <a href="/src/Public/contacts/process_toggle_fav.php?id=<?= $customer->id ?>"
+                                        class="flex flex-row justify-between text-yellow-500">
+                                        Add to Favourites
+                                        <i class="ph ph-star"></i>
+                                    </a>
+                                <?php endif ?>
+
                             </li>
                         </ul>
                     </div>
                 </div>
 
             </div>
-
-        <?php endfor ?>
+        <?php endforeach ?>
 
 
         <a href="./add.php" class="fixed bottom-0 right-0 btn btn-circle w-16 h-16 m-8">
@@ -175,8 +242,19 @@ $search = $_GET["search"] ?? "";
 
     </div>
 
-
-
+    <dialog id="logout_confirm" class="modal">
+        <div class="modal-box">
+            <h3 class="font-bold text-lg">Logout confirmation</h3>
+            <p class="py-4">Are you sure you want to logout?</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <!-- if there is a button in form, it will close the modal -->
+                    <a href="/src/Public/auth/process_logout.php" class="btn btn-error">Logout</a>
+                    <button class="btn">Close</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
 
 </body>
 

@@ -44,33 +44,33 @@ $_SESSION["message"] = null;
             </div>
 
             <?php if ($errors): ?>
-                <div role="alert" class="alert alert-error w-[16rem]">
-                    <span>
-                        <?= $errors ?>
-                    </span>
-                </div>
+            <div role="alert" class="alert alert-error w-[16rem]">
+                <span>
+                    <?= $errors ?>
+                </span>
+            </div>
 
             <?php endif; ?>
 
             <?php if ($message): ?>
-                <div role="alert" class="alert alert-success w-[16rem]">
-                    <span>
-                        <?= $message ?>
-                    </span>
-                </div>
+            <div role="alert" class="alert alert-success w-[16rem]">
+                <span>
+                    <?= $message ?>
+                </span>
+            </div>
 
             <?php endif; ?>
             <div class="flex flex-col align-center w-[16rem]">
                 <span class="text-sm font-light">Username</span>
                 <label class="bg-transparent rounded-none border-b-2 h-10">
                     <i class="ph ph-user opacity-35"></i>
-                    <input type="text" name="username" class="grow h-9" placeholder="Type your username" />
+                    <input type="text" required name="username" class="grow h-9" placeholder="Type your username" />
                 </label>
                 </br>
                 <span class="text-sm font-light">Password</span>
                 <label class="bg-transparent rounded-none border-b-2 h-10">
                     <i class="ph ph-lock opacity-35 h-10"></i>
-                    <input type="password" name="password" class="grow h-9" placeholder="Type your password" />
+                    <input type="password" required name="password" class="grow h-9" placeholder="Type your password" />
                 </label>
             </div>
 
