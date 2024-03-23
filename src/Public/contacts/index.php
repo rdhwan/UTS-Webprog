@@ -12,7 +12,7 @@ $search = $_GET["search"] ?? "";
 $message = $_SESSION["message"];
 $_SESSION["message"] = null;
 
-$error = $_SESSION["error"];
+$error = $_SESSION["error"] ?? null;
 $_SESSION["error"] = null;
 
 // sort contacts, make isFavorite first
@@ -39,19 +39,19 @@ $customers = Customer::where("user_id", "=", $user->id)
 <body class="flex flex-col h-screen min-w-full bg-[url('../images/bg-transparent.png')] bg-cover font-inter">
     <div class="flex flex-col h-96 p-6 md:p-8 md:px-64 gap-6 justify-evenly">
         <?php if ($message): ?>
-        <div role="alert" class="alert alert-info">
-            <span>
-                <?= $message ?>
-            </span>
-        </div>
+            <div role="alert" class="alert alert-info">
+                <span>
+                    <?= $message ?>
+                </span>
+            </div>
         <?php endif; ?>
 
         <?php if ($error): ?>
-        <div role="alert" class="alert alert-error">
-            <span>
-                <?= $error ?>
-            </span>
-        </div>
+            <div role="alert" class="alert alert-error">
+                <span>
+                    <?= $error ?>
+                </span>
+            </div>
         <?php endif; ?>
 
         <div class="flex flex-row items-center justify-between">
@@ -91,15 +91,15 @@ $customers = Customer::where("user_id", "=", $user->id)
 
                 <!-- dummy -->
                 <?php foreach ($customers as $customer): ?>
-                <?php if ($customer->isFavorite): ?>
-                <a href="/src/Public/contacts/edit.php?id=<?= $customer->id ?>" class="avatar placeholder">
-                    <div class="bg-[#DFF5FF] text-neutral rounded-full w-16">
-                        <span>
-                            <?= $customer->name[0] ?>
-                        </span>
-                    </div>
-                </a>
-                <?php endif ?>
+                    <?php if ($customer->isFavorite): ?>
+                        <a href="/src/Public/contacts/edit.php?id=<?= $customer->id ?>" class="avatar placeholder">
+                            <div class="bg-[#DFF5FF] text-neutral rounded-full w-16">
+                                <span>
+                                    <?= $customer->name[0] ?>
+                                </span>
+                            </div>
+                        </a>
+                    <?php endif ?>
                 <?php endforeach ?>
 
                 <!-- add button -->
@@ -146,93 +146,93 @@ $customers = Customer::where("user_id", "=", $user->id)
         class="relative flex flex-1 flex-col gap-3 p-6 md:p-8 md:px-64 pb-20 bg-gradient-to-b from-[#67C6E3] to-[#5356FF] rounded-t-3xl overflow-scroll overflow-y-scroll disable-scroll shadow-inner">
         <!-- dummy contact list -->
         <?php foreach ($customers as $customer): ?>
-        <!-- contact lists -->
-        <div class="flex flex-row items-center justify-between bg-white rounded-full p-4 shadow-md">
-            <div class="avatar placeholder">
-                <div class="bg-[#DFF5FF] text-neutral rounded-full w-12">
-                    <span>
-                        <?= $customer->name[0] ?>
-                    </span>
-                </div>
-            </div>
-
-            <div class="flex flex-col flex-1 px-4">
-                <p>
-                    <?= $customer->name ?>
-                </p>
-                <p class=" text-gray-400 font-medium">
-                    <?= $customer->phoneNumber ?>
-                </p>
-            </div>
-
-            <div class="flex flex-row items-center">
-
-                <?php if ($customer->isFavorite): ?>
-                <i class="ph-fill ph-star text-yellow-500"></i>
-                <?php endif ?>
-                <div class="dropdown dropdown-left">
-                    <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
-                        <i class="ph-fill ph-dots-three-outline-vertical"></i>
+            <!-- contact lists -->
+            <div class="flex flex-row items-center justify-between bg-white rounded-full p-4 shadow-md">
+                <div class="avatar placeholder">
+                    <div class="bg-[#DFF5FF] text-neutral rounded-full w-12">
+                        <span>
+                            <?= $customer->name[0] ?>
+                        </span>
                     </div>
-                    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 gap-2">
-                        <li>
-                            <a href="/src/Public/contacts/edit.php?id=<?= $customer->id ?>"
-                                class="flex flex-row justify-between text-blue-500">
-                                Edit User
-                                <i class="ph ph-pencil-simple-line"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <button onclick="<?= "delete_modal_" . $customer->id ?>.showModal()"
-                                class="flex flex-row justify-between text-red-500">
-                                Delete User
-                                <i class="ph ph-trash"></i>
-                            </button>
-                        </li>
-
-                        <dialog id="<?= "delete_modal_" . $customer->id ?>" class="modal">
-                            <div class="modal-box">
-                                <h3 class="font-bold text-lg">Delete
-                                    <?= $customer->name ?> ?
-                                </h3>
-                                <p class="py-4">Are you sure want to delete
-                                    <?= $customer->name ?>
-                                </p>
-                                <div class="modal-action">
-                                    <form method="dialog">
-                                        <!-- if there is a button in form, it will close the modal -->
-                                        <a href="/src/Public/contacts/process_delete.php?id=<?= $customer->id ?>"
-                                            class="btn btn-error">Delete</a>
-                                        <button class="btn">Close</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </dialog>
-
-                        <hr>
-
-                        <li>
-
-                            <?php if ($customer->isFavorite): ?>
-                            <a href="/src/Public/contacts/process_toggle_fav.php?id=<?= $customer->id ?>"
-                                class="flex flex-row justify-between text-red-400">
-                                Remove from Favourites
-                                <i class="ph ph-star"></i>
-                            </a>
-                            <?php else: ?>
-                            <a href="/src/Public/contacts/process_toggle_fav.php?id=<?= $customer->id ?>"
-                                class="flex flex-row justify-between text-yellow-500">
-                                Add to Favourites
-                                <i class="ph ph-star"></i>
-                            </a>
-                            <?php endif ?>
-
-                        </li>
-                    </ul>
                 </div>
-            </div>
 
-        </div>
+                <div class="flex flex-col flex-1 px-4">
+                    <p>
+                        <?= $customer->name ?>
+                    </p>
+                    <p class=" text-gray-400 font-medium">
+                        <?= $customer->phoneNumber ?>
+                    </p>
+                </div>
+
+                <div class="flex flex-row items-center">
+
+                    <?php if ($customer->isFavorite): ?>
+                        <i class="ph-fill ph-star text-yellow-500"></i>
+                    <?php endif ?>
+                    <div class="dropdown dropdown-left">
+                        <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+                            <i class="ph-fill ph-dots-three-outline-vertical"></i>
+                        </div>
+                        <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 gap-2">
+                            <li>
+                                <a href="/src/Public/contacts/edit.php?id=<?= $customer->id ?>"
+                                    class="flex flex-row justify-between text-blue-500">
+                                    Edit User
+                                    <i class="ph ph-pencil-simple-line"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <button onclick="<?= "delete_modal_" . $customer->id ?>.showModal()"
+                                    class="flex flex-row justify-between text-red-500">
+                                    Delete User
+                                    <i class="ph ph-trash"></i>
+                                </button>
+                            </li>
+
+                            <dialog id="<?= "delete_modal_" . $customer->id ?>" class="modal">
+                                <div class="modal-box">
+                                    <h3 class="font-bold text-lg">Delete
+                                        <?= $customer->name ?> ?
+                                    </h3>
+                                    <p class="py-4">Are you sure want to delete
+                                        <?= $customer->name ?>
+                                    </p>
+                                    <div class="modal-action">
+                                        <form method="dialog">
+                                            <!-- if there is a button in form, it will close the modal -->
+                                            <a href="/src/Public/contacts/process_delete.php?id=<?= $customer->id ?>"
+                                                class="btn btn-error">Delete</a>
+                                            <button class="btn">Close</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </dialog>
+
+                            <hr>
+
+                            <li>
+
+                                <?php if ($customer->isFavorite): ?>
+                                    <a href="/src/Public/contacts/process_toggle_fav.php?id=<?= $customer->id ?>"
+                                        class="flex flex-row justify-between text-red-400">
+                                        Remove from Favourites
+                                        <i class="ph ph-star"></i>
+                                    </a>
+                                <?php else: ?>
+                                    <a href="/src/Public/contacts/process_toggle_fav.php?id=<?= $customer->id ?>"
+                                        class="flex flex-row justify-between text-yellow-500">
+                                        Add to Favourites
+                                        <i class="ph ph-star"></i>
+                                    </a>
+                                <?php endif ?>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
         <?php endforeach ?>
 
 

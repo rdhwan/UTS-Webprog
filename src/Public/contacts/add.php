@@ -3,7 +3,7 @@
 require_once __DIR__ . "/../../bootstrap.php";
 require_once __DIR__ . "/../../Middleware/checkAuth.php";
 
-$error = $_SESSION["error"];
+$error = $_SESSION["error"] ?? null;
 $_SESSION["error"] = null;
 
 ?>

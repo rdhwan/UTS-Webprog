@@ -1,14 +1,14 @@
 <?php
 require_once __DIR__ . "/../../bootstrap.php";
 
-if (isset($_COOKIE["auth"]) && User::where("remember_token", "=", $_COOKIE["auth"])->exists()) {
+if (isset ($_COOKIE["auth"]) && User::where("remember_token", "=", $_COOKIE["auth"])->exists()) {
     $_SESSION["error"] = "You are already signed in.";
 
     header("Location: /src/Public/contacts/index.php");
     exit;
 }
 
-$errors = $_SESSION["error"];
+$errors = $_SESSION["error"] ?? null;
 $_SESSION["error"] = null;
 
 ?>
